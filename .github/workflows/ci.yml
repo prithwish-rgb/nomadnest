@@ -75,12 +75,6 @@ jobs:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         REDIS_URL: ${{ secrets.REDIS_URL }}
-    
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-files
-        path: .next/
 
   deploy:
     needs: build
@@ -90,16 +84,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: build-files
-        path: .next/
-    
     - name: Deploy to Vercel
       uses: amondnet/vercel-action@v25
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}
         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        vercel-args: '--prod' 
+        vercel-args: '--prod'
