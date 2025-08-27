@@ -25,12 +25,14 @@ export const validateDateRange = (startDate: string, endDate: string) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if (start < today) {
-    return { valid: false, message: "Start date cannot be in the past" };
-  }
-
+  // First, ensure chronological order between start and end dates
   if (end < start) {
     return { valid: false, message: "End date cannot be before start date" };
+  }
+
+  // Then, validate that the start date is not in the past
+  if (start < today) {
+    return { valid: false, message: "Start date cannot be in the past" };
   }
 
   const diffTime = end.getTime() - start.getTime();
@@ -41,4 +43,4 @@ export const validateDateRange = (startDate: string, endDate: string) => {
   }
 
   return { valid: true };
-}; 
+};
